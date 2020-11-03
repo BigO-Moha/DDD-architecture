@@ -1,4 +1,4 @@
-# ddd_couse_learn
+# ddd_Flutter_example
 
 Flutter DDD-architecture Example.
 
