@@ -442,35 +442,149 @@ abstract class RegisterWithGoogle implements SignInFormEvent {
   const factory RegisterWithGoogle() = _$RegisterWithGoogle;
 }
 
-mixin _$SignInFormState {}
+mixin _$SignInFormState {
+  EmailAddress get emailAddress;
+  bool get showError;
+  Password get passowrd;
+  bool get isSubmitting;
+  Option<Either<AuthFailure, Unit>> get authFailureOrSuccess;
+
+  SignInFormState copyWith(
+      {EmailAddress emailAddress,
+      bool showError,
+      Password passowrd,
+      bool isSubmitting,
+      Option<Either<AuthFailure, Unit>> authFailureOrSuccess});
+}
 
 class _$SignInFormStateTearOff {
   const _$SignInFormStateTearOff();
 
-  _Initial initial() {
-    return const _Initial();
+  _SigninFormState call(
+      {@required EmailAddress emailAddress,
+      @required bool showError,
+      @required Password passowrd,
+      @required bool isSubmitting,
+      @required Option<Either<AuthFailure, Unit>> authFailureOrSuccess}) {
+    return _SigninFormState(
+      emailAddress: emailAddress,
+      showError: showError,
+      passowrd: passowrd,
+      isSubmitting: isSubmitting,
+      authFailureOrSuccess: authFailureOrSuccess,
+    );
   }
 }
 
 const $SignInFormState = _$SignInFormStateTearOff();
 
-class _$_Initial implements _Initial {
-  const _$_Initial();
+class _$_SigninFormState implements _SigninFormState {
+  const _$_SigninFormState(
+      {@required this.emailAddress,
+      @required this.showError,
+      @required this.passowrd,
+      @required this.isSubmitting,
+      @required this.authFailureOrSuccess})
+      : assert(emailAddress != null),
+        assert(showError != null),
+        assert(passowrd != null),
+        assert(isSubmitting != null),
+        assert(authFailureOrSuccess != null);
+
+  @override
+  final EmailAddress emailAddress;
+  @override
+  final bool showError;
+  @override
+  final Password passowrd;
+  @override
+  final bool isSubmitting;
+  @override
+  final Option<Either<AuthFailure, Unit>> authFailureOrSuccess;
 
   @override
   String toString() {
-    return 'SignInFormState.initial()';
+    return 'SignInFormState(emailAddress: $emailAddress, showError: $showError, passowrd: $passowrd, isSubmitting: $isSubmitting, authFailureOrSuccess: $authFailureOrSuccess)';
   }
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is _Initial);
+    return identical(this, other) ||
+        (other is _SigninFormState &&
+            (identical(other.emailAddress, emailAddress) ||
+                const DeepCollectionEquality()
+                    .equals(other.emailAddress, emailAddress)) &&
+            (identical(other.showError, showError) ||
+                const DeepCollectionEquality()
+                    .equals(other.showError, showError)) &&
+            (identical(other.passowrd, passowrd) ||
+                const DeepCollectionEquality()
+                    .equals(other.passowrd, passowrd)) &&
+            (identical(other.isSubmitting, isSubmitting) ||
+                const DeepCollectionEquality()
+                    .equals(other.isSubmitting, isSubmitting)) &&
+            (identical(other.authFailureOrSuccess, authFailureOrSuccess) ||
+                const DeepCollectionEquality()
+                    .equals(other.authFailureOrSuccess, authFailureOrSuccess)));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(emailAddress) ^
+      const DeepCollectionEquality().hash(showError) ^
+      const DeepCollectionEquality().hash(passowrd) ^
+      const DeepCollectionEquality().hash(isSubmitting) ^
+      const DeepCollectionEquality().hash(authFailureOrSuccess);
+
+  @override
+  _$_SigninFormState copyWith({
+    Object emailAddress = freezed,
+    Object showError = freezed,
+    Object passowrd = freezed,
+    Object isSubmitting = freezed,
+    Object authFailureOrSuccess = freezed,
+  }) {
+    return _$_SigninFormState(
+      emailAddress: emailAddress == freezed
+          ? this.emailAddress
+          : emailAddress as EmailAddress,
+      showError: showError == freezed ? this.showError : showError as bool,
+      passowrd: passowrd == freezed ? this.passowrd : passowrd as Password,
+      isSubmitting:
+          isSubmitting == freezed ? this.isSubmitting : isSubmitting as bool,
+      authFailureOrSuccess: authFailureOrSuccess == freezed
+          ? this.authFailureOrSuccess
+          : authFailureOrSuccess as Option<Either<AuthFailure, Unit>>,
+    );
+  }
 }
 
-abstract class _Initial implements SignInFormState {
-  const factory _Initial() = _$_Initial;
+abstract class _SigninFormState implements SignInFormState {
+  const factory _SigninFormState(
+          {@required EmailAddress emailAddress,
+          @required bool showError,
+          @required Password passowrd,
+          @required bool isSubmitting,
+          @required Option<Either<AuthFailure, Unit>> authFailureOrSuccess}) =
+      _$_SigninFormState;
+
+  @override
+  EmailAddress get emailAddress;
+  @override
+  bool get showError;
+  @override
+  Password get passowrd;
+  @override
+  bool get isSubmitting;
+  @override
+  Option<Either<AuthFailure, Unit>> get authFailureOrSuccess;
+
+  @override
+  _SigninFormState copyWith(
+      {EmailAddress emailAddress,
+      bool showError,
+      Password passowrd,
+      bool isSubmitting,
+      Option<Either<AuthFailure, Unit>> authFailureOrSuccess});
 }
