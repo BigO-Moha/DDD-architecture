@@ -22,6 +22,48 @@ class SignInFormBloc extends Bloc<SignInFormEvent, SignInFormState> {
   Stream<SignInFormState> mapEventToState(
     SignInFormEvent event,
   ) async* {
-    // TODO: implement mapEventToState
+    yield* event.map(
+      emailChanged: (e) async* {
+        yield state.copyWith(
+            emailAddress: EmailAddress(e.email), authFailureOrSuccess: none());
+      },
+      passwordChanged: (e) async* {
+        yield state.copyWith(
+            passowrd: Password(e.password), authFailureOrSuccess: none());
+      },
+      registerEandPpresssed: (e) async* {
+        yield* _authFacadeEmailAndPassword(
+            (_authFacade.registerWithmailandpass));
+      },
+      signInWithEandPpresses: (e) async* {
+        yield* _authFacadeEmailAndPassword(
+            (_authFacade.signInWithEmailandPassI));
+      },
+      registerWithGoogle: (e) async* {},
+    );
+  }
+
+  Stream<SignInFormState> _authFacadeEmailAndPassword(
+    Future<Either<AuthFailure, Unit>> Function(
+            {@required EmailAddress emailAddress, @required Password password})
+        forwardedCall,
+  ) async* {
+    Either<AuthFailure, Unit> failureOrSuccess;
+
+    final isValidEmail = state.emailAddress.isValid();
+    final isValidPassword = state.passowrd.isValid();
+
+    if (isValidEmail && isValidPassword) {
+      yield state.copyWith(
+        isSubmitting: true,
+        authFailureOrSuccess: none(),
+      );
+      failureOrSuccess = await forwardedCall(
+          emailAddress: state.emailAddress, password: state.passowrd);
+    }
+    yield state.copyWith(
+        isSubmitting: false,
+        showError: true,
+        authFailureOrSuccess: optionOf(failureOrSuccess));
   }
 }
